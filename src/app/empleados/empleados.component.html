@@ -15,7 +15,7 @@
                 </tr>
             </thead>
             <tbody>
-                <ng-container *ngFor="let empleado of listEmpleados">
+                <ng-container *ngFor="let empleado of listEmpleados | paginate: {itemsPerPage:5,currentPage:pageNumber};">
                     <tr *ngIf="generoSelec === 'Todos' || empleado.genero === generoSelec">
                         <td>{{ empleado.legajo }}</td>
                         <td>{{ empleado.nombre }}</td>
@@ -25,6 +25,7 @@
                     </tr>
                 </ng-container>
             </tbody>
+            <pagination-controls (pageChange)="pageNumber=$event"></pagination-controls>
         </table>
     </div>
 </div>
