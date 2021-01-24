@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Empleado } from '../models/Empleado';
+import { Pagination } from '../models/pagination';
 import { EmpleadoService } from '../services/empleado.service';
 
 @Component({
@@ -12,11 +13,33 @@ export class EmpleadosComponent implements OnInit {
   generoSelec = 'Todos';
   listEmpleados: Empleado[] = [];
   public pageNumber: number = 1;
+  public searchText: string = '';
+  public pagination: Pagination = new Pagination(1, 0, 5, [5, 10, 20, 25, 50, 100]);
 
   constructor(private empleadoService: EmpleadoService) { }
 
   ngOnInit(): void {
-    this.getListEmpleados();
+    this.getListEmpleadosPaginated();
+  }
+
+  getListEmpleadosPaginated() {
+    this.empleadoService.getListEmpleadosPaginated(this.searchText, this.pagination).subscribe(data => {
+      this.listEmpleados = data.items as Empleado[];
+      this.pagination.count = data.count;
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  onPageChange(event) {
+    this.pagination.page = event;
+    this.getListEmpleadosPaginated();
+  }
+
+  onPageSizeChange(event) {
+    this.pagination.pageSize = event.target.value;
+    this.pagination.page = 1;
+    this.getListEmpleadosPaginated();
   }
 
   getListEmpleados() {
@@ -30,11 +53,11 @@ export class EmpleadosComponent implements OnInit {
   }
 
   getMasculinos(): number {
-    return this.listEmpleados.filter( list => list.genero === 'Masculino').length;
+    return this.listEmpleados.filter(list => list.genero === 'Masculino').length;
   }
 
   getFemeninos(): number {
-    return this.listEmpleados.filter( list => list.genero === 'Femenino').length;
+    return this.listEmpleados.filter(list => list.genero === 'Femenino').length;
   }
 
   generoSeleccionado(genero: string): void {

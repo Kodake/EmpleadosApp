@@ -1,7 +1,7 @@
 <app-count-empleados [todos]="getEmpleados()" [masculino]="getMasculinos()" [femenino]="getFemeninos()"
     (radioButton)="generoSeleccionado($event)">
-
 </app-count-empleados>
+
 <div class="card" style="margin-top: 20px;">
     <div class="card-body">
         <table class="table table-borderless">
@@ -15,7 +15,7 @@
                 </tr>
             </thead>
             <tbody>
-                <ng-container *ngFor="let empleado of listEmpleados | paginate: {itemsPerPage:5,currentPage:pageNumber};">
+                <ng-container *ngFor="let empleado of listEmpleados | paginate: {itemsPerPage:pagination.pageSize, currentPage: pagination.page, totalItems: pagination.count};">
                     <tr *ngIf="generoSelec === 'Todos' || empleado.genero === generoSelec">
                         <td>{{ empleado.legajo }}</td>
                         <td>{{ empleado.nombre }}</td>
@@ -25,7 +25,20 @@
                     </tr>
                 </ng-container>
             </tbody>
-            <pagination-controls (pageChange)="pageNumber=$event"></pagination-controls>
         </table>
+
+        <div class="row">
+            <div class="col-md-6">
+                <pagination-controls responsive="true" previousLabel="Back" nextLabel="Next" (pageChange)="onPageChange($event)"></pagination-controls>
+            </div>
+            <div class="col-md-6">
+                Items per page:
+                <select (change)="onPageSizeChange($event)">
+                    <option *ngFor="let size of pagination.pageSizes" [ngValue]="size">
+                        {{size}}
+                    </option>
+                </select>
+            </div>
+        </div>
     </div>
 </div>
