@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-charts',
@@ -9,9 +7,14 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 })
 export class ChartsComponent {
 
-  single: any[];
+  salaries: any;
+  @Input('salaries')
+  set _salaries(data: any) {
+    this.salaries = data;
+  }
 
-  view: any[] = [700, 400];
+  view: any[] = [500, 250];
+  view2: any[] = [500, 308];
 
   // options
   gradient: boolean = true;
@@ -21,32 +24,11 @@ export class ChartsComponent {
   legendPosition: string = 'below';
 
   colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+    domain: ['#28a745', '#e83e8c', '#007bff', '#AAAAAA']
   };
 
   constructor() {
-    
-  }
 
-  ngOnInit(): void {
-    this.single = [
-      {
-        "name": "Germany",
-        "value": 8940000
-      },
-      {
-        "name": "USA",
-        "value": 5000000
-      },
-      {
-        "name": "France",
-        "value": 7200000
-      },
-        {
-        "name": "UK",
-        "value": 6200000
-      }
-    ]
   }
 
   onSelect(data): void {

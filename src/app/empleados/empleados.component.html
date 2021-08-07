@@ -2,11 +2,11 @@
     (radioButton)="generoSeleccionado($event)">
 </app-count-empleados>
 
-<app-charts></app-charts>
+<app-charts [salaries]="salaries"></app-charts>
 
-<div class="card" style="margin-top: 20px; margin-bottom: 20px;">
+<div class="card mt-4 mb-4">
     <div class="card-body">
-        <table class="table table-borderless">
+        <table class="table table-striped table-hover">
             <thead>
                 <tr>
                     <th>Legajo</th>
