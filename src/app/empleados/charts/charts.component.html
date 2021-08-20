@@ -1,17 +1,21 @@
-<div class="card-group mt-4" style="align-items: center;">
-  <div class="card">
-    <div class="card-body">
-      <ngx-charts-pie-chart [view]="view" [scheme]="colorScheme" [results]="salaries" [gradient]="gradient"
-        [legend]="showLegend" [legendPosition]="legendPosition" [labels]="showLabels" [doughnut]="isDoughnut"
-        (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
-      </ngx-charts-pie-chart>
-    </div>
+<div class="card card-group mt-4">
+  <div class="column" style="display: block; width: 50%;">
+    <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" [options]="barChartOptions"
+      [chartType]="doughnutChartType">
+    </canvas>
+
+    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+      [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+    </canvas>
   </div>
-  <div class="card">
-    <div class="card-body">
-      <ngx-charts-advanced-pie-chart [view]="view2" [scheme]="colorScheme" [results]="salaries" [gradient]="gradient"
-        (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
-      </ngx-charts-advanced-pie-chart>
-    </div>
+
+  <div class="column" style="display: block; width: 50%;">
+    <canvas baseChart [data]="polarAreaChartData" [labels]="polarAreaChartLabels" [options]="barChartOptions"
+      [legend]="polarAreaLegend" [chartType]="polarAreaChartType">
+    </canvas>
+
+    <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [options]="barChartOptions"
+      [chartType]="pieChartType">
+    </canvas>
   </div>
 </div>

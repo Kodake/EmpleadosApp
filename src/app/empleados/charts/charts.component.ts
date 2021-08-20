@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
+import { Label, MultiDataSet, SingleDataSet } from 'ng2-charts';
 
 @Component({
   selector: 'app-charts',
@@ -13,33 +15,58 @@ export class ChartsComponent {
     this.salaries = data;
   }
 
-  view: any[] = [500, 250];
-  view2: any[] = [500, 308];
+  // Doughnut
+  public doughnutChartLabels: Label[] = [
+    "Total",
+    "Femenino",
+    "Masculino"
+  ];
+  public doughnutChartData: MultiDataSet = [[350, 450, 100]];
+  public doughnutChartType: ChartType = "doughnut";
 
-  // options
-  gradient: boolean = true;
-  showLegend: boolean = true;
-  showLabels: boolean = true;
-  isDoughnut: boolean = false;
-  legendPosition: string = 'below';
+  // Pie
+  public pieChartLabels: Label[] = [
+    "Download Sales",
+    "In-Store Sales",
+    "Mail-Order Sales"
+  ];
+  public pieChartData: MultiDataSet = [[350, 450, 100]];
+  public pieChartType: ChartType = "pie";
 
-  colorScheme = {
-    domain: ['#28a745', '#e83e8c', '#007bff', '#AAAAAA']
+  // Bar
+  public barChartOptions: ChartOptions = {
+    responsive: true
   };
+  public barChartLabels: Label[] = [
+    "2006",
+    "2007",
+    "2008",
+    "2009",
+    "2010",
+    "2011",
+    "2012"
+  ];
+  public barChartType: ChartType = "bar";
+  public barChartLegend = true;
+  public barChartPlugins = [];
 
-  constructor() {
+  public barChartData: ChartDataSets[] = [
+    { data: [65, 59, 80, 81, 56, 55, 40], label: "Series A" },
+    { data: [28, 48, 40, 19, 86, 27, 90], label: "Series B" }
+  ];
 
-  }
+  // PolarArea
+  public polarAreaChartLabels: Label[] = [
+    "Download Sales",
+    "In-Store Sales",
+    "Mail Sales",
+    "Telesales",
+    "Corporate Sales"
+  ];
+  public polarAreaChartData: SingleDataSet = [300, 500, 100, 40, 120];
+  public polarAreaLegend = true;
 
-  onSelect(data): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
-  }
+  public polarAreaChartType: ChartType = "polarArea";
 
-  onActivate(data): void {
-    console.log('Activate', JSON.parse(JSON.stringify(data)));
-  }
-
-  onDeactivate(data): void {
-    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
-  }
+  constructor() { }
 }
