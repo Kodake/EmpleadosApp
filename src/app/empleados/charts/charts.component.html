@@ -1,19 +1,18 @@
 <div class="card card-group mt-4">
-  <div class="column" style="display: block; width: 50%; padding: 25px;">
+
+  <div class="column column-xl">
     <canvas baseChart [data]="ChartData" [labels]="ChartLabels" [options]="ChartOptions" [plugins]="ChartPlugins"
       [chartType]="doughnutChartType" [colors]="ChartColors">
     </canvas>
-
-    <canvas baseChart [datasets]="barChartData" [labels]="ChartLabels" [options]="ChartOptions" [plugins]="ChartPlugins"
-      [legend]="barChartLegend" [chartType]="barChartType" [colors]="ChartColors">
-    </canvas>
   </div>
 
-  <div class="column" style="display: block; width: 50%; padding: 25px;">
+  <div class="column column-md">
     <canvas baseChart [data]="ChartData" [labels]="ChartLabels" [options]="ChartOptions" [plugins]="ChartPlugins"
       [legend]="polarAreaLegend" [chartType]="polarAreaChartType" [colors]="ChartColors">
     </canvas>
+  </div>
 
+  <div class="column column-md">
     <canvas baseChart [data]="ChartData" [labels]="ChartLabels" [options]="ChartOptions" [plugins]="ChartPlugins"
       [chartType]="pieChartType" [colors]="ChartColors">
     </canvas>

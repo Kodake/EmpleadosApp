@@ -30,6 +30,8 @@ export class EmpleadosComponent implements OnInit {
     this.empleadoService.getListEmpleadosPaginated(this.searchText, this.pagination).subscribe(data => {
       this.listEmpleados = data.items as Empleado[];
       this.pagination.count = data.count;
+      console.log(data);
+      
 
       this.labels = ["Total","Femenino","Masculino"]
       this.salaries = [data.totalSalaries, data.femaleSalaries, data.maleSalaries];
@@ -73,5 +75,4 @@ export class EmpleadosComponent implements OnInit {
   generoSeleccionado(genero: string): void {
     this.generoSelec = genero;
   }
-
 }

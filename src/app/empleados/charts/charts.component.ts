@@ -43,16 +43,6 @@ export class ChartsComponent implements OnInit {
 
   // Pie
   public pieChartType: ChartType = "pie";
-
-  // Bar
-  public barChartType: ChartType = "bar";
-  public barChartLegend = true;
-  public barChartPlugins = [];
-
-  public barChartData: ChartDataSets[] = [];
-
-  // PolarArea
-  public polarAreaChartData: SingleDataSet = [300, 500, 100, 40, 120];
   public polarAreaLegend = true;
   public polarAreaChartType: ChartType = "polarArea";
 
@@ -64,7 +54,6 @@ export class ChartsComponent implements OnInit {
     });
     await this.empleadoService.getSalaries().subscribe(sal => {
       this.ChartData = [sal];
-      this.barChartData = [{ data: sal, label: "Serie A" }]
     });
   }
 
