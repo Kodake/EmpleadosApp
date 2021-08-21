@@ -1,72 +1,80 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
-import { Label, MultiDataSet, SingleDataSet } from 'ng2-charts';
+import { Color, Label, MultiDataSet, SingleDataSet } from 'ng2-charts';
+import * as ChartDataLabels from "chartjs-plugin-datalabels";
+
+import { EmpleadoService } from 'src/app/services/empleado.service';
 
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.component.html',
   styleUrls: ['./charts.component.css']
 })
-export class ChartsComponent {
+export class ChartsComponent implements OnInit {
 
-  salaries: any;
-  @Input('salaries')
-  set _salaries(data: any) {
-    this.salaries = data;
-  }
+  @Input() salaries: number[];
+  @Input() labels: Label[];
+
+  // All
+  public ChartColors: Color[] = [{ backgroundColor: ['#06d6a0', '#ef476f', '#118ab2'] }];
+  public ChartLabels: Label[];
+  public ChartData: MultiDataSet = [];
+  public ChartPlugins = [ChartDataLabels];
+  public ChartOptions: ChartOptions = {
+    responsive: true,
+    plugins: {
+      datalabels: {
+        formatter: (value, ctx) => this.getFormat(value, ctx),
+        color: "black",
+        align: "center",
+        font: {
+          size: 15
+        }
+      }
+    },
+    animation: {
+      duration: 2500,
+      animateRotate: true
+    }
+  };
 
   // Doughnut
-  public doughnutChartLabels: Label[] = [
-    "Total",
-    "Femenino",
-    "Masculino"
-  ];
-  public doughnutChartData: MultiDataSet = [[350, 450, 100]];
   public doughnutChartType: ChartType = "doughnut";
 
   // Pie
-  public pieChartLabels: Label[] = [
-    "Download Sales",
-    "In-Store Sales",
-    "Mail-Order Sales"
-  ];
-  public pieChartData: MultiDataSet = [[350, 450, 100]];
   public pieChartType: ChartType = "pie";
 
   // Bar
-  public barChartOptions: ChartOptions = {
-    responsive: true
-  };
-  public barChartLabels: Label[] = [
-    "2006",
-    "2007",
-    "2008",
-    "2009",
-    "2010",
-    "2011",
-    "2012"
-  ];
   public barChartType: ChartType = "bar";
   public barChartLegend = true;
   public barChartPlugins = [];
 
-  public barChartData: ChartDataSets[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: "Series A" },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: "Series B" }
-  ];
+  public barChartData: ChartDataSets[] = [];
 
   // PolarArea
-  public polarAreaChartLabels: Label[] = [
-    "Download Sales",
-    "In-Store Sales",
-    "Mail Sales",
-    "Telesales",
-    "Corporate Sales"
-  ];
   public polarAreaChartData: SingleDataSet = [300, 500, 100, 40, 120];
   public polarAreaLegend = true;
-
   public polarAreaChartType: ChartType = "polarArea";
 
-  constructor() { }
+  constructor(private empleadoService: EmpleadoService) { }
+
+  async ngOnInit() {
+    await this.empleadoService.getLabels().subscribe(lab => {
+      this.ChartLabels = lab;
+    });
+    await this.empleadoService.getSalaries().subscribe(sal => {
+      this.ChartData = [sal];
+      this.barChartData = [{ data: sal, label: "Serie A" }]
+    });
+  }
+
+  getFormat(value, ctx) {
+    let sum = 0;
+    let dataArr = ctx.chart.data.datasets[0].data;
+    dataArr.map(data => {
+      sum += data;
+    });
+    let percentage = (value * 100 / sum).toFixed(2) + "%";
+    return percentage;
+  }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Label, MultiLineLabel } from 'ng2-charts';
 import { Empleado } from '../models/Empleado';
 import { Pagination } from '../models/pagination';
 import { EmpleadoService } from '../services/empleado.service';
@@ -12,7 +13,8 @@ export class EmpleadosComponent implements OnInit {
 
   generoSelec = 'Todos';
   listEmpleados: Empleado[] = [];
-  salaries: any;
+  salaries: Array<number>;
+  labels: Array<string>;
 
   public pageNumber: number = 1;
   public searchText: string = '';
@@ -20,50 +22,38 @@ export class EmpleadosComponent implements OnInit {
 
   constructor(private empleadoService: EmpleadoService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.getListEmpleadosPaginated();
   }
 
-  getListEmpleadosPaginated() {
+  async getListEmpleadosPaginated() {
     this.empleadoService.getListEmpleadosPaginated(this.searchText, this.pagination).subscribe(data => {
       this.listEmpleados = data.items as Empleado[];
       this.pagination.count = data.count;
 
-      const SALARIES = [
-        {
-          "name": "Total",
-          "value": data.totalSalaries
-        },
-        {
-          "name": "Femenino",
-          "value": data.femaleSalaries
-        },
-        {
-          "name": "Masculino",
-          "value": data.maleSalaries
-        }
-      ];
-
-      this.salaries = SALARIES;
-
+      this.labels = ["Total","Femenino","Masculino"]
+      this.salaries = [data.totalSalaries, data.femaleSalaries, data.maleSalaries];
+      
+      this.empleadoService.setLabels(this.labels);
+      this.empleadoService.setSalaries(this.salaries);
     }, error => {
       console.log(error);
     });
   }
 
-  onPageChange(event) {
+  async onPageChange(event) {
     this.pagination.page = event;
-    this.getListEmpleadosPaginated();
+    await this.getListEmpleadosPaginated();
   }
 
-  onPageSizeChange(event) {
+  async onPageSizeChange(event) {
     this.pagination.pageSize = event.target.value;
     this.pagination.page = 1;
-    this.getListEmpleadosPaginated();
+    await this.getListEmpleadosPaginated();
   }
 
-  getListEmpleados() {
-    this.empleadoService.getListEmpleados().subscribe(data => {
+  async getListEmpleados() {
+    await this.empleadoService.getListEmpleados().subscribe(data => {
       this.listEmpleados = data;
     });
   }

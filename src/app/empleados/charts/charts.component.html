@@ -1,21 +1,21 @@
 <div class="card card-group mt-4">
-  <div class="column" style="display: block; width: 50%;">
-    <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels" [options]="barChartOptions"
-      [chartType]="doughnutChartType">
+  <div class="column" style="display: block; width: 50%; padding: 25px;">
+    <canvas baseChart [data]="ChartData" [labels]="ChartLabels" [options]="ChartOptions" [plugins]="ChartPlugins"
+      [chartType]="doughnutChartType" [colors]="ChartColors">
     </canvas>
 
-    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
-      [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+    <canvas baseChart [datasets]="barChartData" [labels]="ChartLabels" [options]="ChartOptions" [plugins]="ChartPlugins"
+      [legend]="barChartLegend" [chartType]="barChartType" [colors]="ChartColors">
     </canvas>
   </div>
 
-  <div class="column" style="display: block; width: 50%;">
-    <canvas baseChart [data]="polarAreaChartData" [labels]="polarAreaChartLabels" [options]="barChartOptions"
-      [legend]="polarAreaLegend" [chartType]="polarAreaChartType">
+  <div class="column" style="display: block; width: 50%; padding: 25px;">
+    <canvas baseChart [data]="ChartData" [labels]="ChartLabels" [options]="ChartOptions" [plugins]="ChartPlugins"
+      [legend]="polarAreaLegend" [chartType]="polarAreaChartType" [colors]="ChartColors">
     </canvas>
 
-    <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [options]="barChartOptions"
-      [chartType]="pieChartType">
+    <canvas baseChart [data]="ChartData" [labels]="ChartLabels" [options]="ChartOptions" [plugins]="ChartPlugins"
+      [chartType]="pieChartType" [colors]="ChartColors">
     </canvas>
   </div>
 </div>
